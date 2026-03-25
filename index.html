@@ -957,6 +957,59 @@
  .login-box { padding: 22px 14px; }
  }
 
+ /* ===== BHAGVATAM MOBILE FIXES ===== */
+ @media (max-width: 767px) {
+ /* Skandha tabs — scroll horizontally */
+ .skandha-tabs {
+ overflow-x: auto !important;
+ -webkit-overflow-scrolling: touch;
+ flex-wrap: nowrap !important;
+ padding: 10px 12px !important;
+ gap: 8px !important;
+ }
+ .skandha-tab {
+ white-space: nowrap;
+ flex-shrink: 0;
+ padding: 8px 14px !important;
+ font-size: 12px !important;
+ }
+
+ /* Main grid — single column */
+ #sbMainGrid {
+ grid-template-columns: 1fr !important;
+ padding: 0 12px 40px !important;
+ gap: 16px !important;
+ }
+
+ /* Verse cards — prevent overflow */
+ #sbMainGrid > div {
+ min-width: 0 !important;
+ overflow: hidden !important;
+ }
+ #sbMainGrid * {
+ word-break: break-word !important;
+ overflow-wrap: break-word !important;
+ }
+
+ /* Verse Sanskrit text */
+ #sbVerseContent, .sb-verse-box {
+ font-size: 1rem !important;
+ line-height: 1.8 !important;
+ padding: 14px !important;
+ }
+
+ /* Chapter list items */
+ .chapter-item {
+ padding: 10px 12px !important;
+ font-size: 0.88rem !important;
+ }
+
+ /* Audio/shloka buttons row — wrap on mobile */
+ .shloka-btns-row, [style*="display:flex"][style*="gap"] {
+ flex-wrap: wrap !important;
+ }
+ }
+
  /* ===== FOOTER ===== */
  footer {
  background: rgba(0,0,0,0.4); border-top: 1px solid rgba(212,160,23,0.1);
@@ -4108,22 +4161,48 @@ function speakHomeShloka() {
 }
 
 function speakText(text) {
- if (!('speechSynthesis' in window)) {
- showToast('❌ आपका browser speech support नहीं करता');
+ // Mobile Chrome mein speechSynthesis restricted hai — better check
+ const supported = ('speechSynthesis' in window) && (typeof SpeechSynthesisUtterance !== 'undefined');
+
+ if (!supported) {
+ showToast('📱 इस device पर audio support नहीं है। कृपया desktop browser use करें।');
  return;
  }
+
+ try {
  window.speechSynthesis.cancel();
  const utt = new SpeechSynthesisUtterance(text);
  utt.lang = 'hi-IN';
  utt.rate = 0.8;
  utt.pitch = 1;
- // Try to find Hindi voice
+ utt.volume = 1;
+
+ // Voice select karo
+ const trySpeak = () => {
  const voices = window.speechSynthesis.getVoices();
- const hindiVoice = voices.find(v => v.lang.startsWith('hi'));
+ const hindiVoice = voices.find(v => v.lang && v.lang.startsWith('hi'));
  if (hindiVoice) utt.voice = hindiVoice;
  utt.onstart = () => showToast('🔊 श्लोक सुन रहे हैं...');
- utt.onerror = () => showToast('❌ Speech error — browser में Hindi voice install करें');
+ utt.onend = () => showToast('✅ श्लोक समाप्त 🙏');
+ utt.onerror = (e) => {
+ if (e.error !== 'interrupted') {
+ showToast('📱 Audio इस browser में काम नहीं किया। Chrome desktop try करें।');
+ }
+ };
  window.speechSynthesis.speak(utt);
+ };
+
+ // Voices load hone ka wait karo
+ if (window.speechSynthesis.getVoices().length > 0) {
+ trySpeak();
+ } else {
+ window.speechSynthesis.onvoiceschanged = trySpeak;
+ // Fallback — 500ms baad bhi try karo
+ setTimeout(trySpeak, 500);
+ }
+ } catch(e) {
+ showToast('📱 Audio इस device पर support नहीं है।');
+ }
 }
 
 function playAudio() {
