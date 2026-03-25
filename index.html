@@ -464,6 +464,27 @@
  .feature-title { font-family: 'Tiro Devanagari Sanskrit', serif; font-size: 1.1rem; color: var(--gold-light); margin-bottom: 8px; }
  .feature-desc { font-size: 0.9rem; color: rgba(245,200,66,0.55); line-height: 1.6; }
 
+ /* ===== BACK BUTTON ===== */
+ .back-btn {
+ display: inline-flex; align-items: center; gap: 8px;
+ margin: 16px 24px 0;
+ padding: 9px 18px;
+ background: rgba(212,160,23,0.1);
+ border: 1.5px solid rgba(212,160,23,0.3);
+ border-radius: 50px;
+ color: var(--gold);
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 0.95rem;
+ cursor: pointer;
+ transition: all 0.25s;
+ text-decoration: none;
+ }
+ .back-btn:hover {
+ background: rgba(212,160,23,0.2);
+ border-color: var(--gold);
+ transform: translateX(-3px);
+ }
+
  /* ===== SECTION HEADER ===== */
  .section-header {
  text-align: center; padding: 60px 24px 40px;
@@ -726,13 +747,209 @@
  .notif-close { margin-left: auto; background: none; border: none; color: rgba(245,200,66,0.4); cursor: pointer; padding: 0 0 0 8px; }
 
  /* ===== RESPONSIVE ===== */
- @media (max-width: 768px) {
- nav { padding: 0 16px; }
- .nav-links { display: none; }
- .mobile-menu-btn { display: flex; background: none; border: none; color: var(--gold); font-size: 1.4rem; cursor: pointer; }
- .hero-om { font-size: 4rem; }
- .features-grid { grid-template-columns: repeat(2,1fr); }
- .schedule-week { grid-template-columns: repeat(7,1fr); gap: 4px; }
+ /* ============================================================
+    RESPONSIVE SYSTEM — Mobile / Tablet / Laptop / Desktop
+    ============================================================ */
+
+ /* ── Hamburger Button (hidden on desktop) ── */
+ .mobile-menu-btn {
+ display: none;
+ background: rgba(212,160,23,0.12);
+ border: 1.5px solid rgba(212,160,23,0.3);
+ border-radius: 8px;
+ color: var(--gold);
+ font-size: 1.4rem;
+ cursor: pointer;
+ padding: 6px 10px;
+ line-height: 1;
+ transition: background 0.2s;
+ flex-shrink: 0;
+ }
+ .mobile-menu-btn:hover { background: rgba(212,160,23,0.22); }
+
+ /* ── Mobile Drawer Overlay ── */
+ .mobile-nav-overlay {
+ display: none;
+ position: fixed; inset: 0; z-index: 199;
+ background: rgba(0,0,0,0.55);
+ backdrop-filter: blur(3px);
+ }
+ .mobile-nav-overlay.open { display: block; }
+
+ /* ── Mobile Drawer ── */
+ .mobile-nav-drawer {
+ position: fixed; top: 0; right: -300px; bottom: 0;
+ width: 280px; z-index: 200;
+ background: linear-gradient(160deg, #1a0800, #0d0400);
+ border-left: 1px solid rgba(212,160,23,0.2);
+ padding: 0;
+ transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+ display: flex; flex-direction: column;
+ }
+ .mobile-nav-drawer.open { right: 0; }
+ .mobile-nav-header {
+ display: flex; align-items: center; justify-content: space-between;
+ padding: 18px 20px;
+ border-bottom: 1px solid rgba(212,160,23,0.15);
+ }
+ .mobile-nav-title {
+ font-family: 'Tiro Devanagari Sanskrit', serif;
+ font-size: 1.2rem; color: var(--gold);
+ }
+ .mobile-nav-close {
+ background: none; border: none;
+ color: var(--gold); font-size: 1.5rem;
+ cursor: pointer; line-height: 1;
+ }
+ .mobile-nav-links {
+ list-style: none; padding: 12px 0;
+ overflow-y: auto; flex: 1;
+ }
+ .mobile-nav-links li a {
+ display: flex; align-items: center; gap: 12px;
+ padding: 14px 24px;
+ color: rgba(245,200,66,0.75);
+ text-decoration: none;
+ font-size: 1rem;
+ border-bottom: 1px solid rgba(212,160,23,0.06);
+ transition: all 0.2s;
+ }
+ .mobile-nav-links li a:hover,
+ .mobile-nav-links li a.active {
+ color: var(--gold);
+ background: rgba(212,160,23,0.08);
+ padding-left: 30px;
+ }
+ .mobile-nav-footer {
+ padding: 16px 20px;
+ border-top: 1px solid rgba(212,160,23,0.12);
+ display: flex; flex-direction: column; gap: 10px;
+ }
+
+ /* ============================================================
+    LARGE DESKTOP — 1400px+
+    ============================================================ */
+ @media (min-width: 1400px) {
+ nav { padding: 0 56px; }
+ .features-grid { max-width: 1400px; }
+ .chapters-container { max-width: 1400px; }
+ }
+
+ /* ============================================================
+    LAPTOP — 1024px - 1399px (default — mostly fine)
+    ============================================================ */
+ @media (max-width: 1280px) {
+ nav { padding: 0 20px; }
+ .nav-links a { padding: 7px 10px; font-size: 0.82rem; }
+ }
+
+ /* ============================================================
+    TABLET — 768px - 1023px
+    ============================================================ */
+ @media (max-width: 1023px) {
+ nav { padding: 0 18px; height: 60px; }
+ .nav-links { gap: 2px; }
+ .nav-links a { padding: 6px 8px; font-size: 0.78rem; letter-spacing: 0; }
+ 
+ .hero { padding: 60px 16px 40px; }
+ .hero-om { font-size: 4.5rem; }
+ 
+ .features-grid { grid-template-columns: repeat(3,1fr); gap: 14px; padding: 40px 18px; }
+ 
+ .chapters-container { padding: 28px 16px; }
+ .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 12px; }
+ 
+ .login-box { padding: 36px 28px; }
+ 
+ .section-header { padding: 40px 18px 28px; }
+ .section-header h2 { font-size: clamp(1.5rem,3.5vw,2.4rem); }
+ }
+
+ /* ============================================================
+    MOBILE — max 767px
+    ============================================================ */
+ @media (max-width: 767px) {
+ /* NAV — hide desktop links, show hamburger */
+ nav { padding: 0 14px; height: 56px; }
+ .nav-links { display: none !important; }
+ .mobile-menu-btn { display: flex; }
+ #navUserName { display: none !important; }
+
+ /* Pages padding-top = nav height */
+ .page { padding-top: 56px; }
+
+ /* LOGIN */
+ .login-box { padding: 28px 20px; width: 95vw; }
+ .login-om { font-size: 2.4rem; }
+ .login-title { font-size: 1.4rem; }
+
+ /* HERO */
+ .hero { padding: 48px 14px 32px; min-height: auto; }
+ .hero-om { font-size: 3.5rem; }
+ .hero-title { font-size: clamp(1.8rem,7vw,3rem); }
+ .hero-subtitle { font-size: 0.9rem; margin-bottom: 28px; }
+ .shloka-card { padding: 22px 16px; }
+ .shloka-text { font-size: 1rem; }
+ .shloka-translation { font-size: 0.88rem; }
+
+ /* FEATURES GRID */
+ .features-grid { grid-template-columns: repeat(2,1fr); gap: 12px; padding: 28px 12px; }
+ .feature-card { padding: 18px 14px; }
+ .feature-icon { font-size: 2rem; }
+ .feature-title { font-size: 0.95rem; }
+ .feature-desc { font-size: 0.78rem; }
+
+ /* SECTION HEADER */
+ .section-header { padding: 28px 14px 20px; }
+ .section-header h2 { font-size: clamp(1.4rem,5.5vw,2rem); }
+ .section-header p { font-size: 0.88rem; }
+
+ /* BACK BUTTON */
+ .back-btn { margin: 12px 14px 0; padding: 7px 14px; font-size: 0.85rem; }
+
+ /* CHAPTERS GRID — GEETA */
+ .chapters-container { padding: 18px 12px; }
+ .chapters-grid { grid-template-columns: repeat(3,1fr); gap: 8px; }
+ .chapter-card { padding: 14px 8px; }
+ .chapter-num { font-size: 1.4rem; }
+ .chapter-name { font-size: 0.72rem; }
+ .verses-panel { padding: 18px 12px; }
+
+ /* EKADASHI */
+ .ekadashi-container { padding: 16px 12px; }
+
+ /* SCHEDULE */
+ .schedule-week { grid-template-columns: repeat(4,1fr); gap: 6px; }
+
+ /* CHAT */
+ .chat-container { border-radius: 12px; margin: 0 8px; }
+
+ /* TRACKER / NOTES / MEDIA forms */
+ #page-tracker > div, #page-notes > div, #page-media > div { padding: 16px 12px 40px; }
+
+ /* SIGN OUT BTN — smaller */
+ #signOutBtn { padding: 5px 10px; font-size: 0.75rem; }
+
+ /* FOOTER */
+ footer { padding: 28px 14px; }
+ .footer-text { font-size: 0.78rem; }
+
+ /* LOGIN BOX BUTTONS */
+ .login-btn { padding: 13px; font-size: 1rem; }
+ .login-google { padding: 11px; font-size: 0.9rem; }
+ }
+
+ /* ============================================================
+    SMALL MOBILE — max 400px
+    ============================================================ */
+ @media (max-width: 400px) {
+ .features-grid { grid-template-columns: 1fr 1fr; gap: 9px; padding: 20px 10px; }
+ .chapters-grid { grid-template-columns: repeat(3,1fr); gap: 6px; }
+ .hero-om { font-size: 3rem; }
+ .hero-title { font-size: clamp(1.5rem,8vw,2.2rem); }
+ nav { padding: 0 10px; }
+ .back-btn { font-size: 0.8rem; padding: 6px 12px; }
+ .login-box { padding: 22px 14px; }
  }
 
  /* ===== FOOTER ===== */
@@ -834,11 +1051,45 @@
  <li><a href="#" onclick="showPage('notes')" id="nav-notes">📓 Notes</a></li>
  </ul>
  
+ <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
  <button onclick="toggleMode()" id="modeToggleBtn" title="Dark/Light Mode" style="background:rgba(212,160,23,0.15);border:1.5px solid rgba(212,160,23,0.3);border-radius:50px;padding:6px 14px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:18px;color:#D4A017;transition:all 0.3s;white-space:nowrap">
  <span id="modeIcon">🌙</span>
  <span id="modeText" style="font-size:12px;font-weight:700;font-family:'Cormorant Garamond',serif">Dark</span>
  </button>
+ <button onclick="handleSignOut()" id="signOutBtn" title="Sign Out" style="display:none;background:rgba(255,80,80,0.12);border:1.5px solid rgba(255,80,80,0.35);border-radius:50px;padding:6px 14px;cursor:pointer;align-items:center;gap:6px;font-size:13px;color:rgba(255,150,150,0.9);font-family:'Cormorant Garamond',serif;font-weight:700;transition:all 0.3s;white-space:nowrap" onmouseover="this.style.background='rgba(255,80,80,0.22)'" onmouseout="this.style.background='rgba(255,80,80,0.12)'">
+ 🚪 Sign Out
+ </button>
+ <button class="mobile-menu-btn" onclick="openMobileNav()" title="Menu">☰</button>
+ </div>
 </nav>
+
+<!-- ======== MOBILE NAV DRAWER ======== -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+<div class="mobile-nav-drawer" id="mobileNavDrawer">
+ <div class="mobile-nav-header">
+ <span class="mobile-nav-title">🌳 भक्ति वृक्ष</span>
+ <button class="mobile-nav-close" onclick="closeMobileNav()">✕</button>
+ </div>
+ <ul class="mobile-nav-links">
+ <li><a href="#" onclick="mobileNav('home')" id="mnav-home" class="active">🏠 Home</a></li>
+ <li><a href="#" onclick="mobileNav('geeta')" id="mnav-geeta">📖 भगवद् गीता</a></li>
+ <li><a href="#" onclick="mobileNav('bhagvatam')" id="mnav-bhagvatam">📚 भागवतम्</a></li>
+ <li><a href="#" onclick="mobileNav('shloka')" id="mnav-shloka">🌸 Daily Shloka</a></li>
+ <li><a href="#" onclick="mobileNav('ekadashi')" id="mnav-ekadashi">🌙 Ekadashi</a></li>
+ <li><a href="#" onclick="mobileNav('schedule')" id="mnav-schedule">📅 Schedule</a></li>
+ <li><a href="#" onclick="mobileNav('media')" id="mnav-media">🎬 Media</a></li>
+ <li><a href="#" onclick="mobileNav('tracker')" id="mnav-tracker">📊 Tracker</a></li>
+ <li><a href="#" onclick="mobileNav('notes')" id="mnav-notes">📓 Notes</a></li>
+ </ul>
+ <div class="mobile-nav-footer">
+ <button onclick="toggleMode();closeMobileNav();" style="width:100%;background:rgba(212,160,23,0.12);border:1.5px solid rgba(212,160,23,0.3);border-radius:30px;padding:10px;cursor:pointer;color:#D4A017;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px">
+ <span id="mobileModeIcon">🌙</span> <span id="mobileModeText">Dark Mode</span>
+ </button>
+ <button id="mobileSignOutBtn" onclick="handleSignOut()" style="display:none;width:100%;background:rgba(255,80,80,0.1);border:1.5px solid rgba(255,80,80,0.3);border-radius:30px;padding:10px;cursor:pointer;color:rgba(255,150,150,0.9);font-size:14px;font-weight:700">
+ 🚪 Sign Out
+ </button>
+ </div>
+</div>
 
 <div id="page-home" class="page active">
  <section class="hero">
@@ -917,6 +1168,7 @@
 </div>
 
 <div id="page-geeta" class="page">
+ <button class="back-btn" onclick="showPage('home')">← वापस जाएं</button>
  <div class="section-header">
  <h2>श्रीमद् भगवद् गीता</h2>
  <p>अध्याय चुनें — Select a Chapter to read all verses</p>
@@ -940,6 +1192,7 @@
 </div>
 
 <div id="page-bhagvatam" class="page">
+ <button class="back-btn" onclick="showPage('home')">← वापस जाएं</button>
  <div class="section-header">
  <h2>श्रीमद् भागवत महापुराण</h2>
  <p>12 स्कंध — स्कंध और अध्याय चुनें</p>
@@ -986,6 +1239,7 @@
 </div>
 
 <div id="page-shloka" class="page">
+ <button class="back-btn" onclick="showPage('home')">← वापस जाएं</button>
  <div class="section-header">
  <h2>🌸 Daily Shloka — दैनिक श्लोक</h2>
  <p>प्रतिदिन का श्लोक ध्यान से पढ़ें</p>
@@ -1071,6 +1325,7 @@
 </div>
 
 <div id="page-ekadashi" class="page">
+ <button class="back-btn" onclick="showPage('home')">← वापस जाएं</button>
  <div class="section-header">
  <h2>🌙 एकादशी Calendar</h2>
  <p>2026 एकादशी तिथियाँ और नोटिफिकेशन</p>
@@ -1088,6 +1343,7 @@
 </div>
 
 <div id="page-schedule" class="page">
+ <button class="back-btn" onclick="showPage('home')">← वापस जाएं</button>
  <div class="section-header">
  <h2>📅 Reading Schedule — अध्ययन समय-सारणी</h2>
  <p>भगवद् गीता और भागवत पढ़ने का दैनिक plan — अपने लक्ष्य को प्राप्त करें</p>
@@ -1128,6 +1384,7 @@
 
 <!-- ======== TRACKER PAGE ======== -->
 <div id="page-tracker" class="page">
+ <button class="back-btn" onclick="showPage('home')">← वापस जाएं</button>
  <div class="section-header">
   <h2>📊 Bhakti Tracker — भक्ति ट्रैकर</h2>
   <p>अपनी भक्ति गतिविधियाँ यहाँ record करें</p>
@@ -1201,6 +1458,7 @@
 
 <!-- ======== NOTES PAGE ======== -->
 <div id="page-notes" class="page">
+ <button class="back-btn" onclick="showPage('home')">← वापस जाएं</button>
  <div class="section-header">
   <h2>📓 Notes — नोटबुक</h2>
   <p>अपने विचार, श्लोक, अनुभव यहाँ लिखें</p>
@@ -1241,6 +1499,7 @@
 </div>
 
 <div id="page-media" class="page">
+ <button class="back-btn" onclick="showPage('home')">← वापस जाएं</button>
  <div class="section-header">
  <h2>🎬 Audio & Video Library</h2>
  <p>कीर्तन, प्रवचन, भजन अपलोड करें</p>
@@ -1560,6 +1819,7 @@ async function initFirebase() {
  ]);
  firebase.initializeApp(firebaseConfig);
  auth = firebase.auth();
+ // LOCAL persistence: sign out ke baad bhi credentials save rehte hain, lekin session properly end hoti hai
  db = firebase.firestore();
  firebaseReady = true;
  return true;
@@ -1766,18 +2026,99 @@ async function onLoginSuccess(user) {
  const name = user.displayName || user.email.split('@')[0];
  const navUser = document.getElementById('navUserName');
  if (navUser) navUser.textContent = '🙏 ' + name;
+ const signOutBtn = document.getElementById('signOutBtn');
+ if (signOutBtn) { signOutBtn.style.display = 'flex'; }
+ const mobileSignOutBtn = document.getElementById('mobileSignOutBtn');
+ if (mobileSignOutBtn) mobileSignOutBtn.style.display = 'block';
 
  showAuthMsg('✅ Jai Shri Krishna! Welcome ' + name, 'success');
  setTimeout(() => {
  const overlay = document.getElementById('loginOverlay');
  overlay.classList.add('hidden');
- document.getElementById('app').classList.add('visible');
- setTimeout(() => overlay.style.display = 'none', 800);
+ const appEl = document.getElementById('app');
+ appEl.style.display = 'block';
+ appEl.classList.add('visible');
+ setTimeout(() => { overlay.style.display = 'none'; }, 800);
  }, 1000);
 }
 
 // Backward compat
 function doLogin() { handleAuth(); }
+
+// ===== NORMAL SIGN OUT =====
+async function handleSignOut() {
+ if (!confirm('क्या आप Sign Out करना चाहते हैं?')) return;
+
+ try {
+ if (auth) await auth.signOut();
+ } catch(e) {
+ console.warn('Sign out error:', e);
+ }
+
+ resetToLoginScreen();
+ showToast('🙏 Sign Out हो गए। Hare Krishna!');
+}
+
+// ===== UI RESET AFTER SIGNOUT/DELETE =====
+function resetToLoginScreen() {
+ // App hide
+ const appEl = document.getElementById('app');
+ appEl.classList.remove('visible');
+ appEl.style.display = 'none';
+
+ // Login screen show
+ const overlay = document.getElementById('loginOverlay');
+ overlay.style.display = 'flex';
+ overlay.style.opacity = '1';
+ overlay.classList.remove('hidden');
+
+ // Form clear
+ ['authEmail','authPass','authName','authConfirm'].forEach(id => {
+ const el = document.getElementById(id);
+ if (el) el.value = '';
+ });
+
+ // Errors hide
+ ['nameErr','emailErr','passErr','confirmErr'].forEach(id => {
+ const el = document.getElementById(id);
+ if (el) el.style.display = 'none';
+ });
+ const authMsg = document.getElementById('authMsg');
+ if (authMsg) { authMsg.style.display = 'none'; authMsg.textContent = ''; }
+
+ // Login tab
+ switchTab('login');
+
+ // Navbar reset
+ const navUser = document.getElementById('navUserName');
+ if (navUser) navUser.textContent = '';
+ const signOutBtn = document.getElementById('signOutBtn');
+ if (signOutBtn) signOutBtn.style.display = 'none';
+ const mobileSignOutBtn = document.getElementById('mobileSignOutBtn');
+ if (mobileSignOutBtn) mobileSignOutBtn.style.display = 'none';
+
+ closeMobileNav();
+}
+
+// ===== MOBILE NAV =====
+function openMobileNav() {
+ document.getElementById('mobileNavOverlay').classList.add('open');
+ document.getElementById('mobileNavDrawer').classList.add('open');
+ document.body.style.overflow = 'hidden';
+}
+function closeMobileNav() {
+ document.getElementById('mobileNavOverlay').classList.remove('open');
+ document.getElementById('mobileNavDrawer').classList.remove('open');
+ document.body.style.overflow = '';
+}
+function mobileNav(page) {
+ closeMobileNav();
+ showPage(page);
+ // sync active state
+ document.querySelectorAll('.mobile-nav-links a').forEach(a => a.classList.remove('active'));
+ const el = document.getElementById('mnav-' + page);
+ if (el) el.classList.add('active');
+}
 
 // ========== READING GOAL TRACKER ==========
 function initReadingTracker() {
@@ -1944,9 +2285,12 @@ function checkEkadashiNotification() {
 function showPage(page) {
  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+ document.querySelectorAll('.mobile-nav-links a').forEach(a => a.classList.remove('active'));
  document.getElementById('page-' + page).classList.add('active');
  const navEl = document.getElementById('nav-' + page);
  if (navEl) navEl.classList.add('active');
+ const mnavEl = document.getElementById('mnav-' + page);
+ if (mnavEl) mnavEl.classList.add('active');
  currentPage = page;
  window.scrollTo(0,0);
 }
@@ -3493,23 +3837,26 @@ function toggleMode() {
  const icon = document.getElementById('modeIcon');
  const text = document.getElementById('modeText');
  const btn = document.getElementById('modeToggleBtn');
+ const mIcon = document.getElementById('mobileModeIcon');
+ const mText = document.getElementById('mobileModeText');
 
  const isLight = body.classList.toggle('light-mode');
 
  if (isLight) {
- icon.textContent = '☀️';
- text.textContent = 'Light';
+ icon.textContent = '☀️'; text.textContent = 'Light';
  btn.style.background = 'rgba(255,107,0,0.15)';
  btn.style.borderColor = 'rgba(255,107,0,0.4)';
  btn.style.color = '#FF6B00';
+ if (mIcon) mIcon.textContent = '☀️';
+ if (mText) mText.textContent = 'Light Mode';
  } else {
- icon.textContent = '🌙';
- text.textContent = 'Dark';
+ icon.textContent = '🌙'; text.textContent = 'Dark';
  btn.style.background = 'rgba(212,160,23,0.15)';
  btn.style.borderColor = 'rgba(212,160,23,0.3)';
  btn.style.color = '#D4A017';
+ if (mIcon) mIcon.textContent = '🌙';
+ if (mText) mText.textContent = 'Dark Mode';
  }
- // Save preference
  localStorage.setItem('bhakti_mode', isLight ? 'light' : 'dark');
 }
 
